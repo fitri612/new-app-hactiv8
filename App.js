@@ -33,22 +33,14 @@ export default class App extends React.Component {
   }
   addItem = () => {
     if (this.state.newItem != "") {
-      // create a new item with unique id
       const newItemJSON = {
         id: 1 + Math.random(),
         value: this.state.newItem.slice(),
       };
-
-      // copy current list of items
       const list = this.state.listOfItems;
-
-      // add the new item to the list
       list.push(newItemJSON);
-
-      // update state with new list, reset the new item input
       this.setState({
         listOfItems: list,
-        //listOfItems:[...this.state.listOfItems,list],
         newItem: "",
       });
     }
@@ -113,10 +105,10 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#48AAAD",
+    backgroundColor: "grey",
   },
   textView: {
-    backgroundColor: "#ff0066",
+    backgroundColor: "black",
     height: 80,
   },
   text: {
