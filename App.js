@@ -51,6 +51,7 @@ export default class App extends React.Component {
     this.setState({
       newItem: editValue[0].value,
     });
+    this.updateInput(editValue[0].value);
 
   }
   render() {
@@ -70,7 +71,7 @@ export default class App extends React.Component {
           ></TextInput>
           <View>
             <TouchableOpacity style={styles.button} onPress={this.addItem}>
-              <Text style={styles.buttontext}>+</Text>
+              <Text style={styles.buttontext}>Tambah Data</Text>
             </TouchableOpacity>
           </View>
 
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
     right: 20,
     top: 200,
     backgroundColor: "maroon",
-    width: 50,
+    width: 150,
     height: 50,
     borderRadius: 50,
     alignItems: "center",
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
 
   buttontext: {
     color: "#fff",
-    fontSize: 24,
+    fontSize: 12,
   },
   textstyle: {
     fontSize: 20,
