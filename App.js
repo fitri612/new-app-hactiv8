@@ -13,46 +13,50 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      newItem: "",
+      update_id: 0,
+      is_update: false,
       listOfItems: [],
+      tempText: "",
     };
   }
 
   deleteItem(id) {
-    const list = this.state.listOfItems;
-    const updatedList = list.filter((item) => item.id !== id);
+    const data = this.state.listOfItems;
     this.setState({
-      listOfItems: updatedList,
-    });
-  }
-  updateInput(key, value) {
-    // update react state
-    this.setState({
-      [key]: value,
+      listOfItems: data.filter((item) => item.id !== id),
+      is_update: false,
     });
   }
   addItem = () => {
-    if (this.state.newItem != "") {
-      const newItemJSON = {
+    if (this.state.tempText != "") {
+      const newItem = {
         id: 1 + Math.random(),
-        value: this.state.newItem.slice(),
+        value: this.state.tempText.slice(),
       };
-      const list = this.state.listOfItems;
-      list.push(newItemJSON);
+      const data = this.state.listOfItems;
+      data.push(newItem);
       this.setState({
-        listOfItems: list,
-        newItem: "",
+        listOfItems: data,
+        is_update: false,
       });
     }
   };
   editItem(id) {
-    const list = this.state.listOfItems;
-    const editValue = list.filter((item) => item.id === id);
+    const data = this.state.listOfItems;
+    const target = data.filter((item) => item.id === id);
+    // if (target.length > 0)
     this.setState({
-      newItem: editValue[0].value,
+      update_id: id,
+      is_update: true,
+      tempText: target[0].value.slice(),
     });
-    this.updateInput(editValue[0].value);
-
+  }
+  noUpdate() {
+    this.setState({
+      update_id: 0,
+      is_update: false,
+      tempText: "",
+    });  
   }
   render() {
     return (
@@ -65,13 +69,25 @@ export default class App extends React.Component {
             placeholder="  Type item here..."
             style={styles.inputBox}
             onChangeText={(text) => {
-              this.setState({ newItem: text });
+              if (this.state.is_update) {
+              	const data = this.state.listOfItems;
+              	const update_id = 0 + this.state.update_id;
+              	const target = data.filter((item) => item.id == update_id);
+              	target[0].value = text;
+              	this.setState({ listOfItems: data });
+              }
+              this.setState({ tempText: text });
             }}
-            value={this.state.newItem}
+            value={this.state.tempText}
           ></TextInput>
           <View>
             <TouchableOpacity style={styles.button} onPress={this.addItem}>
-              <Text style={styles.buttontext}>Tambah Data</Text>
+              <Text style={styles.buttontext}>+</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity style={styles.button1} onPress={() => this.noUpdate()}>
+              <Text style={styles.buttontext}>ok</Text>
             </TouchableOpacity>
           </View>
 
@@ -137,10 +153,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     elevation: 8,
   },
+  button1: {
+    position: "absolute",
+    right: 20,
+    top: 300,
+    backgroundColor: "maroon",
+    width: 150,
+    height: 50,
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 8,
+  },
 
   buttontext: {
     color: "#fff",
-    fontSize: 12,
+    fontSize: 24,
   },
   textstyle: {
     fontSize: 20,
